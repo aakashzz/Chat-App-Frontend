@@ -14,7 +14,7 @@ function ListOfContact() {
         </span>
         <span className='w-auto h-8  rounded-full bg-[#ff6700] ml-14'>
             {/* <p className='text-center p-1 text-[16px] font-semibold'>12+</p> */}
-            <Badge content="5" />
+            {/* <Badge content="5" /> */}
         </span>
     </div>
   )
