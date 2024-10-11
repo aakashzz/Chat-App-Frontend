@@ -1,20 +1,34 @@
-import React from "react";
+import React, { memo, useEffect, useState } from "react";
 import { IoIosChatbubbles } from "react-icons/io";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { FaUserCircle } from "react-icons/fa";
 import { RiUserSearchLine } from "react-icons/ri";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import { getCurrentUser } from "../services/authenticate.service";
+import Logout from "./mini-components/Logout";
+import FindUser from "./mini-components/UserFind/FindUser";
 
 function Navbar() {
+   
    const authStatus = useSelector((state) => state.authorize.status);
    console.log(authStatus);
+   const [image,setImage] = useState("")
+   useEffect(() => {
+      async function getUserImage() {
+         const responseAsJson = await getCurrentUser();
+        setImage(responseAsJson.data?.data?.profilePicture);
+      };
+
+      getUserImage();
+   }, [authStatus]);
+
    const navigationItems = [
       {
          name: "findUser",
          direction: "",
          active: authStatus,
-         icon: <RiUserSearchLine className="size-8 text-white" />,
+         icon: <FindUser />,
       },
       {
          name: "requestNotify",
@@ -26,7 +40,13 @@ function Navbar() {
          name: "userProfile",
          direction: "",
          active: authStatus,
-         icon: <FaUserCircle className="size-8 text-white" />,
+         icon: image ? <img src={image} className="h-11 w-11 rounded-full object-cover" alt="" /> : <img src={"https://thebankingacademy.com/public/images/speakers/dummy-img.png"} className="h-11 w-11 rounded-full object-cover" alt="" />,
+      },
+      {
+         name: "logout",
+         direction: "",
+         active: authStatus,
+         icon: <Logout />|| null,
       },
       {
          name: "Signup",
@@ -57,6 +77,7 @@ function Navbar() {
                            <li key={value.name}>{value.icon}</li>
                         ) : (
                            <li
+                              key={value.name}
                               className={
                                  value.name === "Signup"
                                     ? "font-bold  text-lg px-2.5 py-1 font-Inter text-[#1EFF00]"
@@ -79,4 +100,4 @@ function Navbar() {
    );
 }
 
-export default Navbar;
+export default memo(Navbar);

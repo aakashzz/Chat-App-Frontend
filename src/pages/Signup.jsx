@@ -42,7 +42,7 @@ export function Signup() {
       }
    }
    return (
-      <div className="h-96 w-full text-white flex justify-center  ">
+      <div className="h-96 w-full text-white flex justify-center">
          
          <div className="mb-1 flex flex-col gap-6 mt-4 w-96">
             <Typography

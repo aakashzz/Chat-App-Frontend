@@ -21,10 +21,8 @@ function Login() {
    async function submitHandler(data){
       setError("");
       setLoading(true);
-      console.log(data)
       try {
          const response = await loginUser(data);
-         console.log(response)
          if (response) {
             dispatch(login(response.data.data))
             navigate("/chat")

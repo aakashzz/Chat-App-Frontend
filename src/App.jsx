@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { login, logout } from "./redux/slices/authorize.slice";
 import { useEffect, useState } from "react";
 import Loading from "./components/mini-components/Loading";
+import { getCurrentUser } from "./services/authenticate.service";
 
 function App() {
    const [loading, setLoading] = useState(true);
@@ -14,17 +15,16 @@ function App() {
 
    useEffect(() => {
       setLoading(true);
-      axios
-         .get(`${import.meta.env.VITE_BASEURL}/users/getUser`)
+      getCurrentUser()
          .then((data) => {
-            console.log(data.data)
             dispatch(login(data.data.data));
          })
-         .catch(() => {
+         .catch((error) => {
+            console.error(error)
             dispatch(logout());
          })
          .finally(setLoading(false));
-   }, []);
+   }, [loading ]);
    return loading ? (
       <Loading />
    ) : (

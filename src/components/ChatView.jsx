@@ -3,8 +3,13 @@ import { FaUserCircle } from "react-icons/fa";
 import { Input } from "@material-tailwind/react";
 import { IoSendSharp } from "react-icons/io5";
 import MessageComp from "./mini-components/MessageComp";
+import { logoutUser } from "../services/authenticate.service";
+import { useNavigate } from "react-router-dom";
+import { HotToast } from "./mini-components/HotToast";
 
 function ChatView() {
+   const navigate = useNavigate();
+  
    return (
       <div className="col-span-7 flex flex-col justify-between rounded-2xl bg-[#02362B] shadow-xl text-black my-4 w-full">
          <div className="h-14 border-b  w-full flex items-center px-4 gap-x-3 ">
@@ -32,7 +37,8 @@ function ChatView() {
                className="text-white bg-transparent outline-none h-10 text-base font-normal w-full  pl-3 font-Inter"
             />
             <button className="text-white  h-10 w-10 flex items-center  justify-center bg-green-600 rounded-3xl">
-               <IoSendSharp />
+               {/* <IoSendSharp /> */}
+               <HotToast />
             </button>
          </div>
       </div>
