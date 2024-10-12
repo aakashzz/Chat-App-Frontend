@@ -1,6 +1,7 @@
 import React from "react";
 import { FcContacts } from "react-icons/fc";
 import ListOfContact from "./mini-components/ListOfContact";
+import Contact from "./mini-components/ContactShow/Contact";
 
 function ContactList() {
    return (
@@ -9,7 +10,7 @@ function ContactList() {
             <h1 className="text-2xl  font-bold font-Inter text-white">
                Chat
             </h1>
-            <FcContacts className="size-8"/>
+            <Contact />
          </div>
          <div className="p-2.5 ">
             <ListOfContact />

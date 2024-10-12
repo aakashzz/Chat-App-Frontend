@@ -14,11 +14,11 @@ export async function SignupUser(formData) {
    try {
       const response = await axios.post(
          `${baseurl}/users/registration`,
-         formData
-      );
-      if (response) {
-         return loginUser({ email, password });
-      }
+         formData,
+         config
+      )
+      console.log(formData.email)
+      if (response) loginUser(formData)
       return response;
    } catch (error) {
       console.error("SignUp Error", error);
@@ -26,31 +26,44 @@ export async function SignupUser(formData) {
    }
 }
 
-export async function loginUser({email,password}) {
+export async function loginUser({ email, password }) {
    try {
       const response = await axios.post(
          `${baseurl}/users/login`,
-         {email,password},
+         { email, password },
          config
       );
       return response;
    } catch (error) {
-      console.error("SignUp Error", error);
+      console.error("Login Error", error);
       throw new Error(error.message);
    }
 }
 
 export async function logoutUser() {
-   const response = await axios.get(`${baseurl}/users/logout`,config);
+   const response = await axios.get(`${baseurl}/users/logout`, config);
    return response;
 }
 
 export async function getCurrentUser() {
    try {
-      const response = await axios.get(`${baseurl}/users/getUser`,config);
+      const response = await axios.get(`${baseurl}/users/getUser`, config);
       if (!response) console.log("Response Not here", response);
       return response;
    } catch (error) {
-    console.error("This GetUser Error",error)
+      console.error("This GetUser Error", error);
+   }
+}
+export async function getAllUser(userName) {
+   try {
+      const response = await axios.post(
+         `${baseurl}/users/findAllUser`,
+         { userName },
+         config
+      );
+      if (!response) console.log("allUser Method Not work", response);
+      return response;
+   } catch (error) {
+      console.error("This findAllUser Error", error);
    }
 }

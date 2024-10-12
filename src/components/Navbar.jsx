@@ -8,6 +8,7 @@ import { NavLink } from "react-router-dom";
 import { getCurrentUser } from "../services/authenticate.service";
 import Logout from "./mini-components/Logout";
 import FindUser from "./mini-components/UserFind/FindUser";
+import RequestReceive from "./mini-components/RequestNotify/RequestReceive";
 
 function Navbar() {
    
@@ -34,7 +35,7 @@ function Navbar() {
          name: "requestNotify",
          direction: "",
          active: authStatus,
-         icon: <IoMdNotificationsOutline className="size-8 text-white" />,
+         icon: <RequestReceive />,
       },
       {
          name: "userProfile",

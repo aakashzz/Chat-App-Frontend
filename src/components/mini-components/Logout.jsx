@@ -1,13 +1,15 @@
 import React, { memo } from "react";
 import { logoutUser } from "../../services/authenticate.service";
-import {useNavigate} from "react-router-dom"
+import { useNavigate} from "react-router-dom"
+import { useDispatch } from "react-redux";
+import {logout} from "../../redux/slices/authorize.slice"
 function Logout() {
     const navigate = useNavigate()
+    const dispatch = useDispatch();
    const  logoutUserFunction = async (e) => {
       e.preventDefault();
         const logoutResponse = await logoutUser();
-        // if(!logoutResponse) throw new Error("Logout Method Not Work");
-        console.log(logoutResponse)
+        if(logoutResponse) dispatch(logout())
         return navigate("/login")
    }
    return (
