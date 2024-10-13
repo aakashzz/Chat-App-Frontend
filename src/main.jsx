@@ -10,6 +10,7 @@ import Home from "./pages/Home.jsx";
 import { Provider } from "react-redux";
 import { store } from "./redux/store.js";
 import AuthLayout from "./components/AuthLayout.jsx";
+import ChatView from "./components/ChatView.jsx";
 
 const router = createBrowserRouter([
    {
@@ -41,6 +42,14 @@ const router = createBrowserRouter([
             element: (
                <AuthLayout authenticate>
                   <Home />
+               </AuthLayout>
+            ),
+         },
+         {
+            path: "chat/:id",
+            element: (
+               <AuthLayout authenticate>
+                  <ChatView />
                </AuthLayout>
             ),
          },

@@ -1,22 +1,26 @@
 import React from 'react'
 import { FaUserCircle } from "react-icons/fa";
 import { Badge } from "@material-tailwind/react";
+import { Link } from 'react-router-dom';
 
-function ListOfContact() {
+function ListOfContact({fullName,email,profilePicture,message,id}) {
   return (
-    <div className='w-full h-14 flex mb-1.5 items-center gap-x-3 '>
-        <span className='w-[3rem] h-[3rem]'>
-            <img src="../../../public/profile.jpeg" className='rounded-full' alt="" />
+    <Link to={`/chat/${id}`} className='w-full h-14 flex mb-1.5 items-center gap-x-4 '>
+        <span className=''>
+            <img src={profilePicture} className='rounded-full object-cover w-[3rem] h-[3rem]' alt="" />
         </span>
         <span className=' font-Inter'>
-            <h4 className='text-lg font-semibold text-white'>Aakash Malviya</h4>
-            <p className='text-xs font-light text-white'>malviyaaakash4509@gmail.com</p>
+            <h4 className='text-lg font-semibold text-white'>{fullName}</h4>
+            <p className='text-xs font-light text-white'>{email}</p>
         </span>
         <span className='w-auto h-8  rounded-full bg-[#ff6700] ml-14'>
             {/* <p className='text-center p-1 text-[16px] font-semibold'>12+</p> */}
-            {/* <Badge content="5" /> */}
+            {
+              message.length > 0 ? (<Badge content={message.length} />) : ("")
+            }
+            
         </span>
-    </div>
+    </Link>
   )
 }
 

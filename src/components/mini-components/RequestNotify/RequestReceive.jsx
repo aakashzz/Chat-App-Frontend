@@ -20,7 +20,6 @@ function RequestReceive() {
       setOpen(!open);
    }
 
-   
    //function of getting request
    useEffect(() => {
       const dataFetch = async () => {
@@ -32,7 +31,7 @@ function RequestReceive() {
 
    return (
       <div>
-         <Button onClick={handleOpen} className="bg-transparent w-fit p-0" >
+         <Button onClick={handleOpen} className="bg-transparent w-fit p-0">
             <IoMdNotificationsOutline className="size-8 text-white" />
          </Button>
          <Dialog open={open} handler={handleOpen}>
@@ -42,14 +41,16 @@ function RequestReceive() {
                <div className="h-40 w-full">
                   {/* conditional rendering a user exist than show user and request btn Not Found */}
                   {allRequests ? (
-                     <RequestUserList
-                        key={allRequests?._id}
-                        _id={allRequests?.senderId?._id}
-                        email={allRequests?.senderId?.email}
-                        profilePicture={allRequests?.senderId?.profilePicture}
-                        fullName={allRequests?.senderId?.fullName}
-                        request_id={allRequests?._id}
-                     />
+                     allRequests.map((data) => (
+                        <RequestUserList
+                           key={data?._id}
+                           _id={data?.senderId?._id}
+                           email={data?.senderId?.email}
+                           profilePicture={data?.senderId?.profilePicture}
+                           fullName={data?.senderId?.fullName}
+                           request_id={data?._id}
+                        />
+                     ))
                   ) : (
                      <Typography
                         variant="h3"

@@ -1,14 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { Input } from "@material-tailwind/react";
 import { IoSendSharp } from "react-icons/io5";
 import MessageComp from "./mini-components/MessageComp";
 import { logoutUser } from "../services/authenticate.service";
-
+import { useParams } from "react-router-dom";
+import { showAllChats } from "../services/chat.service";
 
 function ChatView() {
+   //TODO: user message send receive and view message creation
    // const navigate = useNavigate();
-  
+   const [messages, setMessages] = useState([]);
+   const { id } = useParams();
+
+   useEffect(() => {
+      async function getChatData() {
+         const response = await showAllChats(id);
+         if (!response) throw new Error("Get Chat Method error");
+         setMessages(response.data.data);
+         console.log(response);
+      }
+      getChatData();
+   }, [id]);
+
    return (
       <div className="col-span-7 flex flex-col justify-between rounded-2xl bg-[#02362B] shadow-xl text-black my-4 w-full">
          <div className="h-14 border-b  w-full flex items-center px-4 gap-x-3 ">
@@ -27,7 +41,10 @@ function ChatView() {
          </div>
          <div className="h-[60vh] ">
             {/* this block is chat views */}
-            <MessageComp />
+            {
+               messages.length > 0 ? (<MessageComp />) : ("Empty")
+            }
+            
          </div>
          <div className="w-full h-14 p-2 flex gap-x-2 border-t px-4 justify-between font-semibold">
             <input

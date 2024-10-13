@@ -14,10 +14,8 @@ export async function SignupUser(formData) {
    try {
       const response = await axios.post(
          `${baseurl}/users/registration`,
-         formData,
-         config
+         formData
       )
-      console.log(formData.email)
       if (response) loginUser(formData)
       return response;
    } catch (error) {
