@@ -6,6 +6,7 @@ import { showAllChatUser } from "../services/chat.service";
 
 function ChatUser() {
    const [user, setUser] = useState([]);
+   const [chatInfo,setChatInfo] = useState([])
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState("");
    useEffect(() => {
@@ -13,8 +14,8 @@ function ChatUser() {
          setLoading(true);
          const response = await showAllChatUser();
          if (!response) throw new Error("ChatUser Not Found");
-         setUser(response.data.data);
-         console.log(response.data.data);
+         setChatInfo(response.data.data[0]);
+         setUser(response.data.data[1]);
          setLoading(false);
       };
       dataFetch()
@@ -26,14 +27,14 @@ function ChatUser() {
             <Contact />
          </div>
          <div className="p-2.5 ">
-            {  user.length > 0 ? (
+            {  user ? (
                user.map((value) => (
+
                   <ListOfContact
-                     fullName={value.ContactUserId.fullName}
-                     email={value.ContactUserId.email}
-                     profilePicture={value.ContactUserId.profilePicture}
-                     message={value.Messages}
-                     id={value.ContactUserId._id}
+                     fullName={value[0].fullName}
+                     email={value[0].email}
+                     profilePicture={value[0].profilePicture}
+                     chatId={chatInfo[0]._id}
                   />
                ))
             ) : (

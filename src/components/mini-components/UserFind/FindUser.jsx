@@ -20,7 +20,6 @@ function FindUser() {
    const [getUser, setGetUser] = useState([]);
 
    async function searchAllUser() {
-      console.log(typeUser);
       const responseOfAllUser = await getAllUser(typeUser);
       if (!responseOfAllUser)
          throw toast.error("User Not Found", {

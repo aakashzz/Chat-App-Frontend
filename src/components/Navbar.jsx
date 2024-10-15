@@ -13,7 +13,6 @@ import RequestReceive from "./mini-components/RequestNotify/RequestReceive";
 function Navbar() {
    
    const authStatus = useSelector((state) => state.authorize.status);
-   console.log(authStatus);
    const [image,setImage] = useState("")
    useEffect(() => {
       async function getUserImage() {

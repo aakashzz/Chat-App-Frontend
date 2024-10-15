@@ -13,7 +13,6 @@ function ContactList({
    profilePicture,
 }) {
    const navigate = useNavigate()
-   const [chatIcon,setChatIcon] = useState(true)
    async function removeUser(){
       const response = await removeContactUser(contact_model_id);
       if(!response){
@@ -24,12 +23,10 @@ function ContactList({
 
    async function chatUser(){
       const response = await createNewChat(_id);
-      console.log(response)
       if(!response){
          toast.error("Chat Not Create Something Have Issue",{duration:3000,position:"bottom-right"})
       }
       toast.success("New Chat Created",{duration:3000,position:"bottom-right"})
-      setChatIcon(false)
       navigate(`/chat/${_id}`)
    }
    return (
@@ -55,13 +52,13 @@ function ContactList({
                Remove
             </button>
             {
-               chatIcon ? (<button
+                 (<button
                   // to={`/chat/${_id}`}
                   onClick={chatUser}
                   className="text-black text-[14px] hover:bg-green-500 hover:text-white duration-75 font-Inter font-medium border px-2 py-1.5 border-gray-700 outline-none rounded"
                >
                   Chat
-               </button>) : (<></>)
+               </button>) 
             }
             
          </div>

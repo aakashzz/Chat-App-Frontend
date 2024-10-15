@@ -10,19 +10,10 @@ const config = {
    force: true,
 };
 
-export async function showAllChats(id){
-    try {
-        const responseOfChats = await axios.get(`${baseurl}/chat/show-chat/${id}`,config);
-        if(!responseOfChats) throw new Error("Error in Show All Chats");
-        return responseOfChats
-    } catch (error) {
-        return console.error(error)
-    }
-}
 
-export async function createNewChat(ContactUserId){
+export async function createNewChat(receiverId){
     try {
-        const responseOfNewChat = await axios.post(`${baseurl}/chat/new-chat`,{ContactUserId},config);
+        const responseOfNewChat = await axios.post(`${baseurl}/chat/new-chat`,{receiverId},config);
         if(!responseOfNewChat) throw new Error("Error in CreateNewChat method");
         return responseOfNewChat;
     } catch (error) {   
@@ -34,6 +25,15 @@ export async function showAllChatUser(){
         const responseOfUser = await axios.get(`${baseurl}/chat/show-chat-user`,config);
         if(!responseOfUser) throw new Error("Error in CreateNewChat method");
         return responseOfUser;
+    } catch (error) {
+        return console.error(error)   
+    }   
+}
+export async function deleteChat(id){
+    try {
+        const responseOfDeletedChat = await axios.delete(`${baseurl}/chat/delete-chat/${id}`,config);
+        if(!responseOfDeletedChat) throw new Error("Error in deleteChat method");
+        return responseOfDeletedChat;
     } catch (error) {
         return console.error(error)   
     }   
