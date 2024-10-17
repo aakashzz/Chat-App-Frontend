@@ -6,10 +6,12 @@ import MessageComp from "./mini-components/MessageComp";
 import Loading from "../components/mini-components/Loading";
 import { useParams } from "react-router-dom";
 import {
+   getChatUserMethod,
    sendMessageMethod,
    showAllMessageMethod,
 } from "../services/message.service";
 import toast from "react-hot-toast";
+
 // import io from "socket.io-client"
 
 // const ENDPOINT = "http://localhost:2000";
@@ -21,7 +23,8 @@ function ChatView() {
    const [messages, setMessages] = useState([]);
    const { id } = useParams();
    const [loading, setLoading] = useState(false);
-   const [sendMessage, SetSendMessage] = useState("");
+   const [sendMessage, setSendMessage] = useState("");
+   const [userProfile,setUserProfile] = useState([]);
 
    async function sendMessageFunction(e) {
       e.preventDefault();
@@ -38,6 +41,7 @@ function ChatView() {
             position: "bottom-right",
          });
       }
+      setSendMessage("")
    }
 
    useEffect(() => {
@@ -50,10 +54,22 @@ function ChatView() {
             });
          }
          setMessages(resultOfShowMessage.data.data);
-         console.log(resultOfShowMessage);
+         
+         console.log(resultOfShowMessage)
       }
+      
       showMessagesFunction();
-   }, [id]);
+      setSendMessage("")
+   }, [id])
+
+      useEffect(()=>{
+         async function getChatUserMethod(){
+            const userProfile = await getChatUserMethod(id);
+            console.log(userProfile)
+         }
+         getChatUserMethod();
+      })
+
 
    return (
       <>
@@ -62,7 +78,7 @@ function ChatView() {
                <Loading />
             </>
          ) : (
-            (console.log(messages),
+
             (
                <>
                   <div className="col-span-7 flex flex-col justify-between rounded-2xl bg-[#02362B] shadow-xl text-black my-4 w-full">
@@ -87,7 +103,7 @@ function ChatView() {
                               {messages?.map((value) => (
                                  <MessageComp
                                     profilePicture={
-                                       messages[0]?.sendedBy?.profilePicture
+                                       value?.sendedBy?.profilePicture
                                     }
                                     // sender={value.receiver}
                                     _id={value.sendedBy}
@@ -102,7 +118,7 @@ function ChatView() {
                      <div className="w-full h-14 p-2 flex gap-x-2 border-t px-4 justify-between font-semibold">
                         <input
                            type="text"
-                           onChange={(e) => SetSendMessage(e.target.value)}
+                           onChange={(e) => setSendMessage(e.target.value)}
                            placeholder="Type Message ...."
                            className="text-white bg-transparent outline-none h-10 text-base font-normal w-full  pl-3 font-Inter"
                         />
@@ -116,7 +132,7 @@ function ChatView() {
                      </div>
                   </div>
                </>
-            ))
+            )     
          )}
       </>
    );

@@ -7,12 +7,16 @@ import { toast, Toaster } from "react-hot-toast";
 function RequestUserList({ email, profilePicture, request_id, _id, fullName }) {
    async function updateRequest(value) {
       await updateRequestStatus(request_id, value);
-      if (value === "Accept") {
-         toast.success("Request Accept SuccessFully", {
+      if (!value === "Accept") {
+         toast.error("Request Reject SuccessFully", {
             duration: 3000,
             position: "bottom-right",
          });
-      }toast.success("Request Reject SuccessFully",{duration:3000,position:"bottom-right"})
+      }
+      toast.success("Request Accept SuccessFully", {
+         duration: 3000,
+         position: "bottom-right",
+      });
    }
    return (
       <div className="w-full h-14 flex mb-1.5 items-center justify-between gap-x-3 my-2 px-4">

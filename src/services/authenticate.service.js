@@ -16,6 +16,7 @@ export async function SignupUser(formData) {
          `${baseurl}/users/registration`,
          formData
       )
+      console.log(formData)
       if (response) loginUser(formData)
       return response;
    } catch (error) {

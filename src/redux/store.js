@@ -3,6 +3,6 @@ import authorizeReducer from "./slices/authorize.slice.js"
 
 export const store = configureStore({
     reducer:{
-        authorize:authorizeReducer,
+        authorize:authorizeReducer
     }
 })
