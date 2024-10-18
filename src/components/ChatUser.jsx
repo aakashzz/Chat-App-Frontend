@@ -34,6 +34,7 @@ function ChatUser() {
             {user.length > 0 ? (
                user.map((value, index) => (
                   <ListOfContact
+                  key={value[0]._id}
                      fullName={value[0].fullName}
                      email={value[0].email}
                      profilePicture={value[0].profilePicture}

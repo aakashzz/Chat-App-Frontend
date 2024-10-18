@@ -8,6 +8,7 @@ import { login, logout } from "./redux/slices/authorize.slice";
 import { useEffect, useState } from "react";
 import Loading from "./components/mini-components/Loading";
 import { getCurrentUser } from "./services/authenticate.service";
+import { Spinner } from "@material-tailwind/react";
 
 function App() {
    const [loading, setLoading] = useState(true);
@@ -26,7 +27,10 @@ function App() {
          .finally(setLoading(false));
    }, [loading ]);
    return loading ? (
-      <Loading />
+      <div className="h-screen w-full flex justify-center items-center">
+
+         <Spinner className="h-10 w-10" />
+      </div>
    ) : (
       <main className="h-full w-full ">
          <Navbar />

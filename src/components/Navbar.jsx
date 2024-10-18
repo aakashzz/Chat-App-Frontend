@@ -11,14 +11,13 @@ import FindUser from "./mini-components/UserFind/FindUser";
 import RequestReceive from "./mini-components/RequestNotify/RequestReceive";
 
 function Navbar() {
-   
    const authStatus = useSelector((state) => state.authorize.status);
-   const [image,setImage] = useState("")
+   const [image, setImage] = useState("");
    useEffect(() => {
       async function getUserImage() {
          const responseAsJson = await getCurrentUser();
-        setImage(responseAsJson.data?.data?.profilePicture);
-      };
+         setImage(responseAsJson.data?.data?.profilePicture);
+      }
 
       getUserImage();
    }, [authStatus]);
@@ -40,13 +39,27 @@ function Navbar() {
          name: "userProfile",
          direction: "",
          active: authStatus,
-         icon: image ? <img src={image} className="h-11 w-11 rounded-full object-cover" alt="" /> : <img src={"https://thebankingacademy.com/public/images/speakers/dummy-img.png"} className="h-11 w-11 rounded-full object-cover" alt="" />,
+         icon: image ? (
+            <img
+               src={image}
+               className="h-11 w-11 rounded-full object-cover"
+               alt=""
+            />
+         ) : (
+            <img
+               src={
+                  "https://thebankingacademy.com/public/images/speakers/dummy-img.png"
+               }
+               className="h-11 w-11 rounded-full object-cover"
+               alt=""
+            />
+         ),
       },
       {
          name: "logout",
          direction: "",
          active: authStatus,
-         icon: <Logout />|| null,
+         icon: <Logout /> || null,
       },
       {
          name: "Signup",

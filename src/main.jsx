@@ -2,8 +2,15 @@ import { StrictMode, useState } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
-import { ThemeProvider } from "@material-tailwind/react";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Switch, ThemeProvider } from "@material-tailwind/react";
+import {
+   BrowserRouter,
+   Route,
+   RouterProvider,
+   Routes,
+   createBrowserRouter,
+   createRoutesFromElements,
+} from "react-router-dom";
 import { Signup } from "./pages/Signup.jsx";
 import Login from "./pages/Login.jsx";
 import Home from "./pages/Home.jsx";
@@ -49,7 +56,7 @@ const router = createBrowserRouter([
             path: "chat/:id",
             element: (
                <AuthLayout authenticate>
-                  <ChatView />
+                  <Home />
                </AuthLayout>
             ),
          },
@@ -57,6 +64,18 @@ const router = createBrowserRouter([
    },
 ]);
 
+// const router = createBrowserRouter(
+//    createRoutesFromElements(
+//        <>
+//          <Route path="/" element={<App />}>
+//             <Route path="login" element={<Login />} />
+//             <Route path="signup" element={<Signup />} />
+//             <Route path="chat" element={<Home />} />
+//             <Route path="chat/:chatId" element={<ChatView />} />
+//          </Route>
+//       </>
+//    )
+// );
 createRoot(document.getElementById("root")).render(
    <StrictMode>
       <ThemeProvider>
