@@ -11,38 +11,45 @@ import {
    showAllMessageMethod,
 } from "../services/message.service";
 import toast from "react-hot-toast";
-import {io} from "socket.io-client";
+import { io } from "socket.io-client";
 
 const ENDPOINT = import.meta.env.VITE_ORIGIN_BACKEND;
 var socket, selectedChatCompare;
 
 function ChatView({ id }) {
-
    const [messages, setMessages] = useState([]);
    const [loading, setLoading] = useState(false);
-   const [sendMessage, setSendMessage] = useState("");
+   const [sendTextMessage, setSendTextMessage] = useState("");
    const [userProfile, setUserProfile] = useState([]);
-   const [socketConnection,setSocketConnection] = useState(false)
+   const [socketConnection, setSocketConnection] = useState(false);
 
+   
+   useEffect(() => {
+      socket = io(ENDPOINT);
+      // socket.emit("setup", userProfile);
+      socket.on("connection", () => setSocketConnection(true));
+   }, []);
 
 
    async function sendMessageFunction(e) {
       e.preventDefault();
-      if (!sendMessage) {
+      if (!sendTextMessage) {
          toast.error("Message Content Empty", {
             duration: 3000,
             position: "bottom-right",
          });
       }
-      const resultSendMessage = await sendMessageMethod(sendMessage, id);
+      const resultSendMessage = await sendMessageMethod(sendTextMessage, id);
       if (!resultSendMessage) {
          toast.error("Message Not Sended Server Error", {
             duration: 3000,
             position: "bottom-right",
          });
       }
-      socket.emit("new message",resultSendMessage)
-      setSendMessage("");
+      console.log(resultSendMessage)
+      socket.emit("sendMessage", resultSendMessage);
+      setMessages([...messages, resultSendMessage]);
+      setSendTextMessage("");
    }
 
    useEffect(() => {
@@ -54,35 +61,31 @@ function ChatView({ id }) {
                position: "bottom-right",
             });
          }
+         console.log("show message",resultOfShowMessage)
          setMessages(resultOfShowMessage.data.data);
-         socket.emit("join chat",id)
+         
       }
       async function getChatUser() {
          const userProfile = await getChatUserMethod(id);
-         setUserProfile(userProfile.data.data[0]);
+         console.log("user profile",userProfile)
+         setUserProfile(userProfile.data.data);
       }
       getChatUser();
       showMessagesFunction();
-      setSendMessage("");
+      
+
+      //receive message socket event..
+      socket.on("receiveMessage", (message) => {;
+         console.log("receiver",message)
+         setMessages((prevMessages)=> [...prevMessages,message.data.data])
+      });
+      setSendTextMessage("");
+   //    return () => {
+   //       socket.off('receiveMessage');
+   //   };
    }, [id]);
-   
 
-   
-      useEffect(()=>{
-         socket = io(ENDPOINT);
-         socket.emit("setup",userProfile);
-         socket.on("connection",()=> setSocketConnection(true))
-      },[])
-   useEffect(()=>{
-      socket.on("message received",(newMessageReceived)=>{
-         if(!selectedChatCompare || selectedChatCompare._id !== newMessageReceived.chat._id){
-
-         }else{
-            setMessages([...messages,newMessageReceived])
-         }
-      })
-   },[])
-
+  
    return (
       <>
          {loading ? (
@@ -106,17 +109,18 @@ function ChatView({ id }) {
                         </h4>
                      </span>
                   </div>
-                  <div className="h-auto  flex flex-col  justify-end pb-2 ">
+                  <div className="h-[24rem]  flex flex-col overflow-y-scroll  justify-end pb-2 ">
                      {/* Message components */}
                      {messages?.length > 0 ? (
                         <>
-                           {messages?.map((value) => (
+                           {messages?.map((value,index) => (
+                              console.log(userProfile[index]),
                               <MessageComp
                                  key={value._id}
                                  profilePicture={
                                     value?.sendedBy?.profilePicture
                                  }
-                                 sender={userProfile?._id}
+                                 sender={userProfile[index]?._id}
                                  _id={value.sendedBy?._id}
                                  content={value.messageContent}
                               />
@@ -126,20 +130,22 @@ function ChatView({ id }) {
                         <></>
                      )}
                   </div>
-                  <div className="w-full h-14 p-2 flex gap-x-2 border-t px-4 justify-between font-semibold">
-                     <input
-                        type="text"
-                        onChange={(e) => setSendMessage(e.target.value)}
-                        placeholder="Type Message ...."
-                        className="text-white bg-transparent outline-none h-10 text-base font-normal w-full  pl-3 font-Inter"
-                     />
-                     <button
-                        onClick={sendMessageFunction}
-                        className="text-white  h-10 w-10 flex items-center  justify-center bg-green-600 rounded-3xl"
-                     >
-                        <IoSendSharp />
-                        {/* <HotToast /> */}
-                     </button>
+                  <div className="">
+                     <form action="" onSubmit={sendMessageFunction} className="w-full h-14 p-2 flex gap-x-2 border-t px-4 justify-between font-semibold">
+                        <input
+                           type="text"
+                           onChange={(e) => setSendTextMessage(e.target.value)}
+                           placeholder="Type Message ...."
+                           className="text-white bg-transparent outline-none h-10 text-base font-normal w-full  pl-3 font-Inter"
+                        />
+                        <button
+                           type="submit"
+                           className="text-white  h-10 w-10 flex items-center  justify-center bg-green-600 rounded-3xl"
+                        >
+                           <IoSendSharp />
+                           {/* <HotToast /> */}
+                        </button>
+                     </form>
                   </div>
                </div>
             </>

@@ -4,8 +4,8 @@ function MessageComp({ profilePicture, content, sender, _id }) {
    console.log("_id",_id)
    console.log("sender",sender)
    return (
-      <div className="h-fit w-full bg-transparent px-2 block">
-         <div className={`flex gap-x-2 items-center py-2 ${_id !== sender ? 'justify-end' : 'justify-start'}`}>
+      <div className="h-auto w-full bg-transparent px-2 block">
+         <div className={`flex gap-x-2 items-center py-2 ${ _id !== sender ? 'justify-end' : 'justify-start'}`}>
             {/* receiver ui */}
             {
                _id === sender && 

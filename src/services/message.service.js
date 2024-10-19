@@ -11,7 +11,7 @@ const config = {
 };
 
 
-export async function sendMessageMethod(messageContent, chatId) {
+export async function   sendMessageMethod(messageContent, chatId) {
    try {
       if (!messageContent && !chatId)
          new Error("Required Filed Not Passing in Method");
