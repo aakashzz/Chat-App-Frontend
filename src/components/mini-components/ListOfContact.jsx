@@ -13,12 +13,12 @@ function ListOfContact({ fullName, email, profilePicture, chatId , userId}) {
          <span className="">
             <img
                src={profilePicture}
-               className="rounded-full object-cover w-[3rem] h-[3rem]"
+               className="rounded-full object-cover w-[1rem] h-[1rem] md:w-[3rem] md:h-[3rem]"
                alt={fullName}
             />
          </span>
          <span className=" font-Inter">
-            <h4 className="text-lg font-semibold text-white">{fullName}</h4>
+            <h4 className="text-lg font-semibold text-white ">{fullName}</h4>
             <p className="text-xs font-light text-white">{email}</p>
          </span>
          <span className="w-auto h-8  rounded-full bg-[#ff6700] ml-14">

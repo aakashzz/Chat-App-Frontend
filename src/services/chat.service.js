@@ -29,7 +29,7 @@ export async function showAllChatUser(){
         return console.error(error)   
     }   
 }
-export async function deleteChat(id){
+export async function deleteChatAndMessage(id){
     try {
         const responseOfDeletedChat = await axios.delete(`${baseurl}/chat/delete-chat/${id}`,config);
         if(!responseOfDeletedChat) throw new Error("Error in deleteChat method");

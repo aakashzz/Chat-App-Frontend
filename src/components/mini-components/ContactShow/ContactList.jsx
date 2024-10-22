@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { removeContactUser } from "../../../services/contact.service";
 import {toast,Toaster} from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useNavigation } from "react-router-dom";
 import { createNewChat } from "../../../services/chat.service";
 
 //TODO: complete delete and chat functionality in this file
@@ -12,7 +12,7 @@ function ContactList({
    _id,
    profilePicture,
 }) {
-   const navigate = useNavigate()
+   const navigate = useNavigation()
    async function removeUser(){
       const response = await removeContactUser(contact_model_id);
       if(!response){
@@ -27,7 +27,7 @@ function ContactList({
          toast.error("Chat Not Create Something Have Issue",{duration:3000,position:"bottom-right"})
       }
       toast.success("New Chat Created",{duration:3000,position:"bottom-right"})
-      navigate(`/chat/${_id}`)
+      navigate(`/chat/${response._id}`)
    }
    return (
       <div className="w-full h-14 flex mb-1.5 items-center justify-between gap-x-3 my-2 px-4">
