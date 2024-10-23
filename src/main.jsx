@@ -56,7 +56,7 @@ const router = createBrowserRouter([
             path: "chat/:id",
             element: (
                <AuthLayout authenticate>
-                  <Home />
+                  <ChatView />
                </AuthLayout>
             ),
          },
@@ -64,18 +64,6 @@ const router = createBrowserRouter([
    },
 ]);
 
-// const router = createBrowserRouter(
-//    createRoutesFromElements(
-//        <>
-//          <Route path="/" element={<App />}>
-//             <Route path="login" element={<Login />} />
-//             <Route path="signup" element={<Signup />} />
-//             <Route path="chat" element={<Home />} />
-//             <Route path="chat/:chatId" element={<ChatView />} />
-//          </Route>
-//       </>
-//    )
-// );
 createRoot(document.getElementById("root")).render(
    <StrictMode>
       <ThemeProvider>

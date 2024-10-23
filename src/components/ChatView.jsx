@@ -12,15 +12,19 @@ import {
 import toast from "react-hot-toast";
 import { io } from "socket.io-client";
 import { deleteChatAndMessage } from "../services/chat.service";
+import { useParams } from "react-router-dom";
+import "./ChatView.css";
+import { Spinner } from "@material-tailwind/react";
 
 const ENDPOINT = import.meta.env.VITE_ORIGIN_BACKEND;
 var socket;
 
-function ChatView({ id }) {
+function ChatView() {
    const [messages, setMessages] = useState([]);
    const [loading, setLoading] = useState(false);
    const [sendTextMessage, setSendTextMessage] = useState("");
    const [userProfile, setUserProfile] = useState([]);
+   const { id } = useParams();
 
    useEffect(() => {
       socket = io(ENDPOINT);
@@ -30,6 +34,7 @@ function ChatView({ id }) {
 
    useEffect(() => {
       async function showMessagesFunction() {
+         setLoading(true);
          const resultOfShowMessage = await showAllMessageMethod(id);
          if (!resultOfShowMessage) {
             toast.error("Message Not Showing", {
@@ -38,7 +43,7 @@ function ChatView({ id }) {
             });
          }
          setMessages(resultOfShowMessage.data.data);
-         
+         setLoading(false);
       }
       async function getChatUser() {
          const userProfile = await getChatUserMethod(id);
@@ -55,8 +60,7 @@ function ChatView({ id }) {
       };
    }, [id]);
 
-
-   //message send 
+   //message send
    async function sendMessageFunction(e) {
       e.preventDefault();
       if (!sendTextMessage) {
@@ -85,16 +89,19 @@ function ChatView({ id }) {
 
    //deleteChat And Message
 
-   async function deleteMessagesAndChat(e){
+   async function deleteMessagesAndChat(e) {
       e.preventDefault();
       const response = await deleteChatAndMessage(id);
-      if(!response){
+      if (!response) {
          return toast.error("Chat And Messages Not Delete Server Error", {
             duration: 3000,
             position: "bottom-right",
          });
       }
-      toast.success("Chat And Message Delete",{duration:3000,position:"bottom-right"});
+      toast.success("Chat And Message Delete", {
+         duration: 3000,
+         position: "bottom-right",
+      });
    }
 
    useEffect(() => {
@@ -107,33 +114,35 @@ function ChatView({ id }) {
    return (
       <>
          {loading ? (
-            <>
-               <Loading />
-            </>
+            <div className="h-screen w-full flex justify-center items-center">
+               <Spinner className="h-10 w-10" />
+            </div>
          ) : (
             <>
-               <div className="col-span-7 flex flex-col  justify-between rounded-2xl bg-[#02362B] shadow-xl text-black my-4 w-full">
-                  <div className="h-14 border-b flex items-center pr-3 ">
+               <div className="lg:col-span-7 max-h-dvh flex flex-col justify-between bg-transparent text-black w-full py-1">
+                  <div className="h-14 flex items-center pr-3 ">
                      <div className=" w-full flex items-center px-4 gap-x-3 py-2">
-
-                     <span className="w-[2.5rem] h-[2.5rem]">
-                        <img
-                           src={userProfile?.profilePicture}
-                           className="rounded-full w-[2.5em] h-[2.5em] object-cover "
-                           alt=""
-                        />
-                     </span>
-                     <span className="">
-                        <h4 className="text-xl font-Inter font-semibold text-white">
-                           {userProfile?.fullName}
-                        </h4>
-                     </span>
+                        <span className="">
+                           <img
+                              src={userProfile?.profilePicture}
+                              className="rounded-full w-12 h-12 object-cover "
+                              alt=""
+                           />
+                        </span>
+                        <span className="">
+                           <h4 className="text-xl font-Inter font-semibold text-white">
+                              {userProfile?.fullName}
+                           </h4>
+                        </span>
                      </div>
                      <button className="" onClick={deleteMessagesAndChat}>
-                        <MdDelete className="size-8 text-red-500  "/>
+                        <MdDelete className="size-8 text-red-500  " />
                      </button>
                   </div>
-                  <div className="h-[24rem] overflow-y-scroll  pb-2 ">
+                  <div
+                     id="chat-components"
+                     className=" h-fit overflow-y-scroll "
+                  >
                      {/* Message components */}
                      {messages?.length > 0 ? (
                         <>

@@ -6,7 +6,7 @@ import { useParams } from 'react-router-dom'
 function Home() {
   const {id} = useParams();
   return (
-    <div className=' grid grid-cols-10 gap-x-4 h-[90vh]'>
+    <div className=' lg:grid  gap-x-4 h-full w-full lg:grid-cols-10'>
         <ChatUser />
         {
           id?.length > 0 ? (<ChatView id={id}/>) : (<></>)

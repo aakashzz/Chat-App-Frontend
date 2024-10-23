@@ -42,7 +42,7 @@ function Navbar() {
          icon: image ? (
             <img
                src={image}
-               className="h-11 w-11 rounded-full object-cover"
+               className="h-10 w-10 sm:h-11 sm:w-11 md:h-11 lg:w-11 rounded-full object-cover"
                alt=""
             />
          ) : (
@@ -50,7 +50,7 @@ function Navbar() {
                src={
                   "https://thebankingacademy.com/public/images/speakers/dummy-img.png"
                }
-               className="h-11 w-11 rounded-full object-cover"
+               className="h-10 w-10 sm:h-11 sm:w-11 md:h-11 lg:w-11 rounded-full object-cover"
                alt=""
             />
          ),
@@ -75,14 +75,14 @@ function Navbar() {
       },
    ];
    return (
-      <nav className="h-16 w-full px-6 border-b shadow flex justify-between">
+      <nav className="h-16 w-full px-4 flex border-b-2 border-black  justify-between">
          <span className="flex items-center h-full space-x-2">
-            <h1 className="text-[#1EFF00] text-3xl font-Inter font-bold">
-               🤖 VibeChat
+            <h1 className="text-white text-2xl sm:text-2xl md:text-3xl lg:text-3xl font-Inter font-semibold">
+               VibeChat
             </h1>
          </span>
          <span className="h-full flex">
-            <ol className="flex items-center w-fit gap-x-3 justify-between ">
+            <ol className="flex items-center w-fit gap-x-2 justify-between ">
                {navigationItems.map((value) =>
                   value.active ? (
                      <>
@@ -113,4 +113,4 @@ function Navbar() {
    );
 }
 
-export default memo(Navbar);
+export default Navbar;

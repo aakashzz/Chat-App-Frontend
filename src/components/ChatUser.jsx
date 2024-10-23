@@ -9,7 +9,6 @@ function ChatUser() {
    const [chatIDs, setChatIDs] = useState([]);
    const [loading, setLoading] = useState(true);
 
-
    useEffect(() => {
       const dataFetch = async () => {
          setLoading(true);
@@ -25,16 +24,15 @@ function ChatUser() {
       dataFetch();
    }, [true]);
    return (
-      <div className=" col-span-3  rounded-2xl bg-[#02362B] shadow-xl text-black my-4 ">
-         <div className="flex border-b border-white justify-between items-center p-3">
-            <h1 className="text-2xl  font-bold font-Inter text-white">Chat</h1>
-            <Contact />
+      <div className="col-span-3 lg:border-r-2 border-black h-full lg:pr-3 text-black ">
+         <div className="py-2">
+            <input type="text" placeholder="Search" className="h-8 text-sm md:text-base md:h-9 bg-[#374151] w-full rounded-full  outline-none border-none pl-4 font-Inter text-white" />
          </div>
-         <div className="p-2.5 ">
+         <div className="flex-1 py-2 ">
             {user.length > 0 ? (
                user.map((value, index) => (
                   <ListOfContact
-                  key={value[0]._id}
+                     key={value[0]._id}
                      fullName={value[0].fullName}
                      email={value[0].email}
                      profilePicture={value[0].profilePicture}
@@ -43,7 +41,7 @@ function ChatUser() {
                   />
                ))
             ) : (
-               <>Chats Have Empty</>
+               <></>
             )}
          </div>
       </div>
