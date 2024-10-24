@@ -119,9 +119,9 @@ function ChatView() {
             </div>
          ) : (
             <>
-               <div className="lg:col-span-7 max-h-dvh flex flex-col justify-between bg-transparent text-black w-full py-1">
-                  <div className="h-14 flex items-center pr-3 ">
-                     <div className=" w-full flex items-center px-4 gap-x-3 py-2">
+               <div className="lg:col-span-7 lg:border-l-2 lg:pl-3 border-black h-[calc(100vh-2rem)] flex flex-col justify-end bg-transparent text-black w-full py-1">
+                  <div className="h-14 flex items-center ">
+                     <div className=" w-full flex items-center px-2 gap-x-3 py-2">
                         <span className="">
                            <img
                               src={userProfile?.profilePicture}
@@ -141,7 +141,7 @@ function ChatView() {
                   </div>
                   <div
                      id="chat-components"
-                     className=" h-fit overflow-y-scroll "
+                     className=" overflow-y-scroll h-full"
                   >
                      {/* Message components */}
                      {messages?.length > 0 ? (

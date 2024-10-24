@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { FcContacts } from "react-icons/fc";
 import ListOfContact from "./mini-components/ListOfContact";
 import Contact from "./mini-components/ContactShow/Contact";
 import { showAllChatUser } from "../services/chat.service";
+import { Spinner } from "@material-tailwind/react";
 
 function ChatUser() {
    const [user, setUser] = useState([]);
@@ -24,12 +24,17 @@ function ChatUser() {
       dataFetch();
    }, [true]);
    return (
-      <div className="col-span-3 lg:border-r-2 border-black h-full lg:pr-3 text-black ">
-         <div className="py-2">
-            <input type="text" placeholder="Search" className="h-8 text-sm md:text-base md:h-9 bg-[#374151] w-full rounded-full  outline-none border-none pl-4 font-Inter text-white" />
+      <div className="col-span-3  text-black ">
+         <div className="flex justify-between items-center p-3">
+            <h1 className="text-2xl  font-bold font-Inter text-white">Chat</h1>
+            <Contact />
          </div>
-         <div className="flex-1 py-2 ">
-            {user.length > 0 ? (
+         <div>
+            {loading ? (
+               <div className="h-screen w-full flex justify-center items-center">
+                  <Spinner className="h-10 w-10" />
+               </div>
+            ) : user.length > 0 ? (
                user.map((value, index) => (
                   <ListOfContact
                      key={value[0]._id}

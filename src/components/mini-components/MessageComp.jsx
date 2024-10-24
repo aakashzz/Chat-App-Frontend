@@ -1,3 +1,4 @@
+import { Badge } from "@material-tailwind/react";
 import React from "react";
 
 function MessageComp({ profilePicture, content, sender, _id }) {

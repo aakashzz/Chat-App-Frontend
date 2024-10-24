@@ -7,6 +7,7 @@ import {
    DialogFooter,
    Input,
    Typography,
+   Badge,
 } from "@material-tailwind/react";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import RequestUserList from "./RequestUserList";
@@ -15,6 +16,7 @@ import { getAllRequest } from "../../../services/request.service";
 function RequestReceive() {
    const [open, setOpen] = React.useState(false);
    const [allRequests, setAllRequests] = useState([]);
+   const [notification,setNotification] = useState(0)
 
    async function handleOpen() {
       setOpen(!open);
@@ -25,15 +27,21 @@ function RequestReceive() {
       const dataFetch = async () => {
          const responseAllRequest = await getAllRequest();
          setAllRequests(responseAllRequest.data.data);
+         setNotification(responseAllRequest.data.data.length)
       };
       dataFetch();
    }, [open]);
 
    return (
       <div>
-         <Button onClick={handleOpen} className="bg-transparent w-fit p-0">
-            <IoMdNotificationsOutline className="size-8 text-white" />
-         </Button>
+            <Button onClick={handleOpen} className="bg-transparent w-fit p-0">
+               {
+                  notification > 0 ? (<Badge content={notification} className="text-xs size-4 p-0">
+                     <IoMdNotificationsOutline className="size-8 text-white" />
+               </Badge>) : (<IoMdNotificationsOutline className="size-8 text-white" />)
+               }
+               
+            </Button>
          <Dialog open={open} handler={handleOpen}>
             <DialogHeader>All Request</DialogHeader>
             <DialogBody>

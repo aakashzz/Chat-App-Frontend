@@ -21,14 +21,15 @@ function App() {
             dispatch(login(data.data.data));
          })
          .catch((error) => {
-            console.error(error)
+            console.error(error);
             dispatch(logout());
+
+         }).finally(()=>{
+            setLoading(false)
          })
-         .finally(setLoading(false));
-   }, [loading ]);
+   }, [loading]);
    return loading ? (
       <div className="h-screen w-full flex justify-center items-center">
-
          <Spinner className="h-10 w-10" />
       </div>
    ) : (

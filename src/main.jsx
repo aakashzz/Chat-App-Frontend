@@ -56,7 +56,7 @@ const router = createBrowserRouter([
             path: "chat/:id",
             element: (
                <AuthLayout authenticate>
-                  <ChatView />
+                  <Home />
                </AuthLayout>
             ),
          },
