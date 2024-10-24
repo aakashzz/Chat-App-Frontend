@@ -24,9 +24,7 @@ function App() {
             console.error(error);
             dispatch(logout());
 
-         }).finally(()=>{
-            setLoading(false)
-         })
+         }).finally(setLoading(false))
    }, [loading]);
    return loading ? (
       <div className="h-screen w-full flex justify-center items-center">
