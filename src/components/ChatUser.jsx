@@ -8,7 +8,7 @@ function ChatUser() {
    const [user, setUser] = useState([]);
    const [chatIDs, setChatIDs] = useState([]);
    const [loading, setLoading] = useState(true);
-
+   
    useEffect(() => {
       const dataFetch = async () => {
          setLoading(true);
@@ -34,7 +34,7 @@ function ChatUser() {
                <div className="h-screen w-full flex justify-center items-center">
                   <Spinner className="h-10 w-10" />
                </div>
-            ) : user.length > 0 ? (
+            ) : user?.length > 0 ? (
                user.map((value, index) => (
                   <ListOfContact
                      key={value[0]._id}
@@ -45,6 +45,7 @@ function ChatUser() {
                      userId={value[0]._id}
                   />
                ))
+               
             ) : (
                <></>
             )}

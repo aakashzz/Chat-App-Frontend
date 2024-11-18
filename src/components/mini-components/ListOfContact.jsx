@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-function ListOfContact({ fullName, email, profilePicture, chatId, userId }) {
+function ListOfContact({ fullName, email, profilePicture, chatId }) {
    return (
       <>
          <Link to={`/chat/${chatId}`} className="">

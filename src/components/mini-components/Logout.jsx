@@ -10,7 +10,7 @@ function Logout() {
       e.preventDefault();
         const logoutResponse = await logoutUser();
         if(logoutResponse) dispatch(logout())
-        return navigate("/login")
+        return navigate("/")
    }
    return (
       /* From Uiverse.io by Jules-gitclerc */

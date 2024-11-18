@@ -2,11 +2,9 @@ import Navbar from "./components/Navbar";
 import "./App.css";
 import Container from "./components/Container";
 import { Outlet } from "react-router-dom";
-import axios from "axios";
 import { useDispatch } from "react-redux";
 import { login, logout } from "./redux/slices/authorize.slice";
 import { useEffect, useState } from "react";
-import Loading from "./components/mini-components/Loading";
 import { getCurrentUser } from "./services/authenticate.service";
 import { Spinner } from "@material-tailwind/react";
 
@@ -19,13 +17,15 @@ function App() {
       getCurrentUser()
          .then((data) => {
             dispatch(login(data.data.data));
+            setLoading(false);
          })
          .catch((error) => {
             console.error(error);
             dispatch(logout());
-
-         }).finally(setLoading(false))
-   }, [loading]);
+            setLoading(false)
+         })
+         .finally(setLoading(false));
+   }, []);
    return loading ? (
       <div className="h-screen w-full flex justify-center items-center">
          <Spinner className="h-10 w-10" />

@@ -29,7 +29,7 @@ const router = createBrowserRouter([
       ),
       children: [
          {
-            path: "signup",
+            path: "/signup",
             element: (
                <AuthLayout authenticate={false}>
                   <Signup />
@@ -37,7 +37,7 @@ const router = createBrowserRouter([
             ),
          },
          {
-            path: "login",
+            path: "/",
             element: (
                <AuthLayout authenticate={false}>
                   <Login />
@@ -45,7 +45,7 @@ const router = createBrowserRouter([
             ),
          },
          {
-            path: "chat",
+            path: "/chat",
             element: (
                <AuthLayout authenticate>
                   <Home />

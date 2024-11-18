@@ -1,16 +1,13 @@
 import React, { memo, useEffect, useState } from "react";
-import { FaUserCircle } from "react-icons/fa";
 import { IoSendSharp } from "react-icons/io5";
 import MessageComp from "./mini-components/MessageComp";
 import { MdDelete } from "react-icons/md";
-import Loading from "../components/mini-components/Loading";
 import {
    getChatUserMethod,
    sendMessageMethod,
    showAllMessageMethod,
 } from "../services/message.service";
 import toast from "react-hot-toast";
-import { io } from "socket.io-client";
 import { deleteChatAndMessage } from "../services/chat.service";
 import { useParams } from "react-router-dom";
 import "./ChatView.css";
@@ -18,7 +15,6 @@ import { Spinner } from "@material-tailwind/react";
 
 const ENDPOINT = import.meta.env.VITE_ORIGIN_BACKEND;
 var socket;
-
 function ChatView() {
    const [messages, setMessages] = useState([]);
    const [loading, setLoading] = useState(false);
@@ -27,10 +23,18 @@ function ChatView() {
    const { id } = useParams();
 
    useEffect(() => {
-      socket = io(ENDPOINT);
-      socket.emit("setup", id);
-      socket.on("connection");
-   }, []);
+      socket = new WebSocket(ENDPOINT);
+      socket.onopen = () => {
+         // setActiveStatus(true);
+         socket.send(
+            JSON.stringify({
+               action: "join",
+               room: id,
+            })
+         );
+         
+      };
+   }, [id]);
 
    useEffect(() => {
       async function showMessagesFunction() {
@@ -47,7 +51,6 @@ function ChatView() {
       }
       async function getChatUser() {
          const userProfile = await getChatUserMethod(id);
-         console.log("user profile", userProfile);
          setUserProfile(userProfile.data.data[0]);
       }
 
@@ -55,9 +58,6 @@ function ChatView() {
       showMessagesFunction();
 
       setSendTextMessage("");
-      return () => {
-         socket.off("receiveMessage");
-      };
    }, [id]);
 
    //message send
@@ -79,11 +79,13 @@ function ChatView() {
          });
       }
 
-      socket.emit("sendMessage", {
-         sender: id,
-         message: resultSendMessage.data.data,
-      });
-      setMessages([...messages, resultSendMessage.data.data]);
+      socket.send(
+         JSON.stringify({
+            action: "sendMessage",
+            data: resultSendMessage.data.data,
+            room: id,
+         })
+      );
       setSendTextMessage("");
    }
 
@@ -104,22 +106,29 @@ function ChatView() {
       });
    }
 
+   //websocket access back data
    useEffect(() => {
-      socket.on("receiveMessage", (message) => {
-         console.log("Received", message);
-         setMessages((prevMessages) => [...prevMessages, message]);
-      });
+      socket.onmessage = (message) => {
+         const parseMessage = JSON.parse(message.data);
+         
+         if (parseMessage.action === "sendMessage") {
+            setMessages((prevMessages) => [
+               ...prevMessages,
+               parseMessage.message,
+            ]);
+         }
+      };
    }, []);
 
    return (
       <>
          {loading ? (
-            <div className="h-screen w-full flex justify-center items-center">
+            <div className="h-screen w-full flex justify-center items-center ">
                <Spinner className="h-10 w-10" />
             </div>
          ) : (
             <>
-               <div className="lg:col-span-7 lg:border-l-2 lg:pl-3 border-black h-[calc(100vh-2rem)] flex flex-col justify-end bg-transparent text-black w-full py-1">
+               <div className="lg:col-span-7 lg:border-l-2  lg:pl-3 border-black h-[calc(100vh-2rem)] flex flex-col justify-end bg-transparent text-black w-full py-1">
                   <div className="h-14 flex items-center ">
                      <div className=" w-full flex items-center px-2 gap-x-3 py-2">
                         <span className="">
@@ -133,6 +142,9 @@ function ChatView() {
                            <h4 className="text-xl font-Inter font-semibold text-white">
                               {userProfile?.fullName}
                            </h4>
+                           <span className="text-white font-medium duration-300 font-Inter text-sm">
+  
+                           </span>
                         </span>
                      </div>
                      <button className="" onClick={deleteMessagesAndChat}>

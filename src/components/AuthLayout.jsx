@@ -12,7 +12,7 @@ function AuthLayout({ children, authenticate = true }) {
    useEffect(() => {
       setLoading(true);
       if (authenticate && authStatus !== authenticate) {
-         navigate("/login");
+         navigate("/");
       } else if (!authenticate && authStatus !== authenticate) {
          navigate("/chat");
       }

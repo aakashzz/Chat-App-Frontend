@@ -57,7 +57,7 @@ function Navbar() {
       },
       {
          name: "logout",
-         direction: "",
+         direction: "/",
          active: authStatus,
          icon: <Logout /> || null,
       },
@@ -69,7 +69,7 @@ function Navbar() {
       },
       {
          name: "Login",
-         direction: "/login",
+         direction: "/",
          active: !authStatus,
          icon: "",
       },
