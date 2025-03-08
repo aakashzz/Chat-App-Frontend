@@ -15,21 +15,18 @@ function Login() {
    const {register,handleSubmit} = useForm()
    const dispatch = useDispatch();
    const navigate = useNavigate();
-   const [loading,setLoading] = useState()
    const [error,setError] = useState()
 
    async function submitHandler(data){
       setError("");
-      setLoading(true);
+      const response = await loginUser(data);
       try {
-         const response = await loginUser(data);
          if (response) {
             dispatch(login(response.data.data))
             navigate("/chat")
          }
       } catch (error) {
-         console.error(error)
-         setError(error.message)
+         setError(response.response.data.message)
       }
    }
   return (
@@ -42,8 +39,8 @@ function Login() {
             >
                Login
             </Typography>
-            <p>{error}</p>
             <form onSubmit={handleSubmit(submitHandler)} className="">
+            <p className='text-lg font-medium text-center text-red-400'>{error}</p>
                <label className="font-Inter text-xl mt-3 font-semibold text-[#1EFF00] -mb-3 block">
                   Email
                </label>

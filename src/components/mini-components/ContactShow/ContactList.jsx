@@ -55,7 +55,6 @@ function ContactList({
             </button>
             {
                  (<button
-                  // to={`/chat/${_id}`}
                   onClick={chatUser}
                   className="text-black text-[14px] hover:bg-green-500 hover:text-white duration-75 font-Inter font-medium  px-2 py-1.5  outline-none rounded"
                >

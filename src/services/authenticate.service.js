@@ -17,11 +17,11 @@ export async function SignupUser(formData) {
          formData
       )
       console.log(formData)
-      if (response) loginUser(formData)
+      if (response) await loginUser(formData)
       return response;
    } catch (error) {
       console.error("SignUp Error", error);
-      throw new Error(error.message);
+      return error;
    }
 }
 
@@ -35,7 +35,7 @@ export async function loginUser({ email, password }) {
       return response;
    } catch (error) {
       console.error("Login Error", error);
-      throw new Error(error.message);
+      return error
    }
 }
 
